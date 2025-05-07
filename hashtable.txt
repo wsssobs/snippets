@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 10
+
+int create(int num);
+void linear_prob(int a[], int key, int num);
+void display(int a[]);
+
+int main() {
+    int a[MAX], num, key, i, ans;
+
+    printf("\nCollision handling by linear probing");
+
+    for (i = 0; i < MAX; i++)
+        a[i] = -1;
+
+    do {
+        printf("\nEnter the number: ");
+        scanf("%d", &num);
+
+        key = create(num);
+        linear_prob(a, key, num);
+
+        printf("\nDo you wish to continue? (1/0): ");
+        scanf("%d", &ans);
+    } while (ans == 1);
+
+    display(a);
+    return 0;
+}
+
+int create(int num) {
+    return num % 10;
+}
+
+void linear_prob(int a[MAX], int key, int num) {
+    int flag = 0, count = 0, i;
+
+    if (a[key] == -1) {
+        a[key] = num;
+    } else {
+        for (i = 0; i < MAX; i++) {
+            if (a[i] != -1)
+                count++;
+        }
+
+        if (count == MAX) {
+            printf("\nHash table is full");
+            display(a);
+            exit(1);
+        }
+
+        for (i = key + 1; i < MAX; i++) {
+            if (a[i] == -1) {
+                a[i] = num;
+                flag = 1;
+                break;
+            }
+        }
+
+        if (flag == 0) {
+            for (i = 0; i < key; i++) {
+                if (a[i] == -1) {
+                    a[i] = num;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void display(int a[MAX]) {
+    int i;
+    printf("\nThe Hash table is:\n");
+    for (i = 0; i < MAX; i++) {
+        printf("%d --> %d\n", i, a[i]);
+    }
+}
