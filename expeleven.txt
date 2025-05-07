@@ -1,0 +1,118 @@
+//First code snippet
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class LibrarianForm extends JFrame {
+    private JPanel contentPane;
+    private JTextField nameField, emailField, contactField, addressField;
+    private JPasswordField passwordField;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                LibrarianForm frame = new LibrarianForm();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public LibrarianForm() {
+        setTitle("Librarian Form");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 450, 400);
+        contentPane = new JPanel();
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JLabel lblName = new JLabel("Name:");
+        lblName.setBounds(30, 30, 80, 25);
+        contentPane.add(lblName);
+
+        nameField = new JTextField();
+        nameField.setBounds(130, 30, 200, 25);
+        contentPane.add(nameField);
+
+        // Repeat for email, contact, address, password...
+        // Add Submit Button and ActionListener
+    }
+}
+
+//Second code snippet
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class ReturnBook extends JFrame {
+    private JPanel contentPane;
+    private JTextField callNoField;
+    private JTextField studentIdField;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                ReturnBook frame = new ReturnBook();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public ReturnBook() {
+        setTitle("Return Book");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 500, 300);
+        contentPane = new JPanel();
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JLabel lblTitle = new JLabel("Return Book");
+        lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblTitle.setBounds(180, 20, 200, 30);
+        contentPane.add(lblTitle);
+
+        JLabel lblCallNo = new JLabel("Book Call No:");
+        lblCallNo.setBounds(50, 80, 100, 25);
+        contentPane.add(lblCallNo);
+
+        callNoField = new JTextField();
+        callNoField.setBounds(180, 80, 200, 25);
+        contentPane.add(callNoField);
+
+        JLabel lblStudentId = new JLabel("Student ID:");
+        lblStudentId.setBounds(50, 120, 100, 25);
+        contentPane.add(lblStudentId);
+
+        studentIdField = new JTextField();
+        studentIdField.setBounds(180, 120, 200, 25);
+        contentPane.add(studentIdField);
+
+        JButton btnReturn = new JButton("Return Book");
+        btnReturn.setBounds(180, 170, 150, 30);
+        btnReturn.addActionListener(e -> {
+            String callno = callNoField.getText();
+            int studentId = Integer.parseInt(studentIdField.getText());
+            int result = ReturnBookDao.delete(callno, studentId); // You must implement this class!
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this, "Book returned successfully!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Unable to return book!");
+            }
+        });
+        contentPane.add(btnReturn);
+
+        JButton btnBack = new JButton("Back");
+        btnBack.setBounds(180, 210, 150, 30);
+        btnBack.addActionListener(e -> {
+            LibrarianSuccess.main(new String[] {}); // Replace with correct call
+            dispose();
+        });
+        contentPane.add(btnBack);
+    }
+}
